@@ -27,7 +27,14 @@ class InfoMessage:
 
 class Training:
     """Базовый класс тренировки."""
-
+    """
+    action — количество совершённых действий
+    duration — длительность тренировки в часах
+    weight — вес спортсмена
+    M_IN_KM — константа для перевода значений из метров в километры
+    LEN_STEP — расстояние, которое спортсмен преодолевает за один шаг или гребок
+    MIN_IN_H — перевод часов в минуты
+    """
     M_IN_KM: int = 1000
     LEN_STEP: float = 0.65
     MIN_IN_H: int = 60
@@ -43,7 +50,6 @@ class Training:
         в метрах и переводится в километры делением на 1000.
         """
         return self.action * self.LEN_STEP / self.M_IN_KM
-        pass
 
     def get_mean_speed(self) -> float:
         """
@@ -52,7 +58,6 @@ class Training:
         в метрах и переводится в километры делением на 1000.
         """
         return (self.action * self.LEN_STEP / self.M_IN_KM) / self.duration
-        pass
 
     def get_spent_calories(self) -> float:
         """Получить количество затраченных калорий."""
@@ -78,7 +83,7 @@ class Running(Training):
     """Тренировка: бег."""
     CALORIES_MEAN_SPEED_MULTIPLIER: int = 18
     CALORIES_MEAN_SPEED_SHIFT: float = 1.79
-    MIN_IN_H = 60
+    MIN_IN_H: int = 60
 
     def get_spent_calories(self) -> float:
         """
@@ -143,7 +148,7 @@ class Swimming(Training):
         )
 
     def get_spent_calories(self) -> float:
-        spent_calories_swm = ((self.get_mean_speed() + self.FRST_COEF)
+        spent_calories_swm : str = ((self.get_mean_speed() + self.FRST_COEF)
                               * self.SEC_COEF * self.weight * self.duration)
         return spent_calories_swm
 
