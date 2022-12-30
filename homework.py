@@ -32,7 +32,7 @@ class Training:
     duration — длительность тренировки в часах
     weight — вес спортсмена
     M_IN_KM — константа для перевода значений из метров в километры
-    LEN_STEP — расстояние, которое спортсмен преодолевает за один шаг или гребок
+    LEN_STEP — расстояние, которое спортсмен преодолевает за шаг или гребок
     MIN_IN_H — перевод часов в минуты
     """
     M_IN_KM: int = 1000
@@ -148,8 +148,8 @@ class Swimming(Training):
         )
 
     def get_spent_calories(self) -> float:
-        spent_calories_swm : str = ((self.get_mean_speed() + self.FRST_COEF)
-                              * self.SEC_COEF * self.weight * self.duration)
+        spent_calories_swm: str = ((self.get_mean_speed() + self.FRST_COEF)
+                                    * self.SEC_COEF * self.weight * self.duration)
         return spent_calories_swm
 
 
