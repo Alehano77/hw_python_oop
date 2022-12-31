@@ -1,9 +1,10 @@
-from dataclasses import dataclass
-
-
-@dataclass
 class InfoMessage:
     """Информационное сообщение о тренировке."""
+    """
+    action — количество совершённых действий
+    duration — длительность тренировки в часах
+    weight — вес спортсмена
+    """
     def __init__(self,
                  training_type: str,
                  duration: float,
@@ -28,11 +29,8 @@ class InfoMessage:
 class Training:
     """Базовый класс тренировки."""
     """
-    action — количество совершённых действий
-    duration — длительность тренировки в часах
-    weight — вес спортсмена
     M_IN_KM — константа для перевода значений из метров в километры
-    LEN_STEP — расстояние, которое спортсмен преодолевает за шаг или гребок
+    LEN_STEP — расстояние, которое спортсмен преодолевает за один шаг/гребок
     MIN_IN_H — перевод часов в минуты
     """
     M_IN_KM: int = 1000
@@ -103,8 +101,8 @@ class SportsWalking(Training):
     CALORIES_WEIGHT_MULTIPLIER: float = 0.035
     CALORIES_SPEED_HEIGHT_MULTIPLIER: float = 0.029
     KMH_IN_MSEC: float = 0.278
-    CM_IN_M = 100
-    COEF = 2
+    CM_IN_M: int = 100
+    COEF: int = 2
 
     def __init__(self, action: int,
                  duration: float,
@@ -156,7 +154,8 @@ class Swimming(Training):
 
 def read_package(workout_type: str, data: list) -> Training:
     """Прочитать данные полученные от датчиков."""
-    parameters_train = {"SWM": Swimming, "RUN": Running, "WLK": SportsWalking}
+    parameters_train: str = {
+        "SWM": Swimming, "RUN": Running, "WLK": SportsWalking}
     if workout_type in parameters_train:
         return parameters_train[workout_type](*data)
     else:
