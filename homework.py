@@ -7,7 +7,6 @@ class InfoMessage:
                  speed: float,
                  calories: float
                  ) -> None:
-    """Базовый класс тренировки."""
     """
     training_type — имя класса тренировки
     duration — длительность тренировки в часах
