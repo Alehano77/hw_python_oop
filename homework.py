@@ -1,10 +1,5 @@
 class InfoMessage:
-    """Информационное сообщение о тренировке."""
-    """
-    action — количество совершённых действий
-    duration — длительность тренировки в часах
-    weight — вес спортсмена
-    """
+
     def __init__(self,
                  training_type: str,
                  duration: float,
@@ -12,6 +7,14 @@ class InfoMessage:
                  speed: float,
                  calories: float
                  ) -> None:
+    """Базовый класс тренировки."""
+    """
+    training_type — имя класса тренировки
+    duration — длительность тренировки в часах
+    distance — дистанция в километрах, которую преодолел пользователь за время тренировки
+    speed — средняя скорость, с которой двигался пользователь
+    calories — количество килокалорий, которое израсходовал пользовательза время тренировки
+    """
         self.training_type = training_type
         self.duration = duration
         self.get_distance = distance
@@ -38,6 +41,12 @@ class Training:
     MIN_IN_H: int = 60
 
     def __init__(self, action: int, duration: float, weight: float) -> None:
+        """Информационное сообщение о тренировке."""
+        """
+        action — количество совершённых действий
+        duration — длительность тренировки в часах
+        weight — вес спортсмена
+        """
         self.action = action
         self.duration = duration
         self.weight = weight
@@ -103,7 +112,12 @@ class SportsWalking(Training):
     KMH_IN_MSEC: float = 0.278
     CM_IN_M: int = 100
     COEF: int = 2
-
+    """
+    action — количество совершённых действий
+    duration — длительность тренировки в часах
+    weight — вес спортсмена
+    height — рост спортсмена
+    """
     def __init__(self, action: int,
                  duration: float,
                  weight: float,
@@ -126,7 +140,13 @@ class Swimming(Training):
     LEN_STEP: float = 1.38
     FRST_COEF: float = 1.1
     SEC_COEF: float = 2
-
+    """
+    action — количество совершённых действий
+    duration — длительность тренировки в часах
+    weight — вес спортсмена
+    heightlength_pool — длина бассейна в метрах
+    count_pool — сколько раз пользователь переплыл бассейн
+    """
     def __init__(
         self,
         action: float,
@@ -154,12 +174,10 @@ class Swimming(Training):
 
 def read_package(workout_type: str, data: list) -> Training:
     """Прочитать данные полученные от датчиков."""
-    parameters_train: str = {
+    parameters_train: int = {
         "SWM": Swimming, "RUN": Running, "WLK": SportsWalking}
     if workout_type in parameters_train:
         return parameters_train[workout_type](*data)
-    else:
-        raise ValueError("Тренировка не найдена")
 
 
 def output(training: Training) -> None:
