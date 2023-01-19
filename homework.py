@@ -32,15 +32,15 @@ class InfoMessage:
 
 class Training:
     """Базовый класс тренировки."""
+
+    M_IN_KM: int = 1000
+    LEN_STEP: float = 0.65
+    MIN_IN_H: int = 60
     """
     M_IN_KM — константа для перевода значений из метров в километры
     LEN_STEP — расстояние, которое спортсмен преодолевает за один шаг/гребок
     MIN_IN_H — перевод часов в минуты
     """
-    M_IN_KM: int = 1000
-    LEN_STEP: float = 0.65
-    MIN_IN_H: int = 60
-
     def __init__(self, action: int, duration: float, weight: float) -> None:
         """Информационное сообщение о тренировке."""
         """
@@ -113,16 +113,21 @@ class SportsWalking(Training):
     KMH_IN_MSEC: float = 0.278
     CM_IN_M: int = 100
     COEF: int = 2
+
     """
-    action — количество совершённых действий
-    duration — длительность тренировки в часах
-    weight — вес спортсмена
-    height — рост спортсмена
+    CALORIES_WEIGHT_MULTIPLIER КАЛОРИИ  — числовой коэффициент 1
+    CALORIES_SPEED_HEIGHT_MULTIPLIER — числовой коэффициент 2
     """
     def __init__(self, action: int,
                  duration: float,
                  weight: float,
                  height: float):
+        """
+        action — количество совершённых действий
+        duration — длительность тренировки в часах
+        weight — вес спортсмена
+        height — рост спортсмена
+        """
         super().__init__(action, duration, weight)
         self.height = height
 
@@ -142,11 +147,9 @@ class Swimming(Training):
     FRST_COEF: float = 1.1
     SEC_COEF: float = 2
     """
-    action — количество совершённых действий
-    duration — длительность тренировки в часах
-    weight — вес спортсмена
-    heightlength_pool — длина бассейна в метрах
-    count_pool — сколько раз пользователь переплыл бассейн
+    LEN_STEP — числовой коэффициент 1
+    FRST_COEF — числовой коэффициент 2
+    SEC_COEF — числовой коэффициент 3
     """
     def __init__(
         self,
@@ -156,6 +159,13 @@ class Swimming(Training):
         length_pool: float,
         count_pool: float,
     ):
+        """
+        action — количество совершённых действий
+        duration — длительность тренировки в часах
+        weight — вес спортсмена
+        heightlength_pool — длина бассейна в метрах
+        count_pool — сколько раз пользователь переплыл бассейн
+        """
         super().__init__(action, duration, weight)
         self.lenght_pool = length_pool
         self.count_pool = count_pool
@@ -175,10 +185,11 @@ class Swimming(Training):
 
 def read_package(workout_type: str, data: list) -> Training:
     """Прочитать данные полученные от датчиков."""
-    parameters_train: int = {
+    parameters_train: dict[str, type[Training]] = {
         "SWM": Swimming, "RUN": Running, "WLK": SportsWalking}
     if workout_type in parameters_train:
         return parameters_train[workout_type](*data)
+    raise NotImplementedError(f'Тип тренировки не известен {workout_type}')
 
 
 def output(training: Training) -> None:
