@@ -32,17 +32,16 @@ class InfoMessage:
 
 class Training:
     """Базовый класс тренировки."""
-
-    M_IN_KM: int = 1000
-    LEN_STEP: float = 0.65
-    MIN_IN_H: int = 60
     """
     M_IN_KM — константа для перевода значений из метров в километры
     LEN_STEP — расстояние, которое спортсмен преодолевает за один шаг/гребок
     MIN_IN_H — перевод часов в минуты
     """
+    M_IN_KM: int = 1000
+    LEN_STEP: float = 0.65
+    MIN_IN_H: int = 60
+
     def __init__(self, action: int, duration: float, weight: float) -> None:
-        """Информационное сообщение о тренировке."""
         """
         action — количество совершённых действий
         duration — длительность тренировки в часах
@@ -108,16 +107,16 @@ class Running(Training):
 
 class SportsWalking(Training):
     """Тренировка: спортивная ходьба."""
+    """
+    CALORIES_WEIGHT_MULTIPLIER КАЛОРИИ  — числовой коэффициент 1
+    CALORIES_SPEED_HEIGHT_MULTIPLIER — числовой коэффициент 2
+    """
     CALORIES_WEIGHT_MULTIPLIER: float = 0.035
     CALORIES_SPEED_HEIGHT_MULTIPLIER: float = 0.029
     KMH_IN_MSEC: float = 0.278
     CM_IN_M: int = 100
     COEF: int = 2
 
-    """
-    CALORIES_WEIGHT_MULTIPLIER КАЛОРИИ  — числовой коэффициент 1
-    CALORIES_SPEED_HEIGHT_MULTIPLIER — числовой коэффициент 2
-    """
     def __init__(self, action: int,
                  duration: float,
                  weight: float,
@@ -143,14 +142,15 @@ class SportsWalking(Training):
 
 class Swimming(Training):
     """Тренировка: плавание."""
-    LEN_STEP: float = 1.38
-    FRST_COEF: float = 1.1
-    SEC_COEF: float = 2
     """
     LEN_STEP — числовой коэффициент 1
     FRST_COEF — числовой коэффициент 2
     SEC_COEF — числовой коэффициент 3
     """
+    LEN_STEP: float = 1.38
+    FRST_COEF: float = 1.1
+    SEC_COEF: float = 2
+
     def __init__(
         self,
         action: float,
@@ -189,7 +189,7 @@ def read_package(workout_type: str, data: list) -> Training:
         "SWM": Swimming, "RUN": Running, "WLK": SportsWalking}
     if workout_type in parameters_train:
         return parameters_train[workout_type](*data)
-    raise NotImplementedError(f'Тип тренировки не известен {workout_type}')
+    raise ValueError(f"Такой тренировки - {workout_type}, не найдено")
 
 
 def output(training: Training) -> None:
